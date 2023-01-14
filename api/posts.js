@@ -3,9 +3,9 @@ const usersRouter = express.Router();
 const { getAllPosts } = require('../db');
 
 usersRouter.use((req, res, next) => {
-  console.log("A request is being made to /users");
+  console.log("A request is being made to /posts");
 
-  res.send({ message: 'hello from /users!' });
+  res.send({ message: 'hello from /posts!' });
   next()
 });
 
