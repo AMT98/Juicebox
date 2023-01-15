@@ -1,5 +1,5 @@
 const express = require('express');
-const usersRouter = express.Router();
+const postsRouter = express.Router();
 const { getAllPosts, createPost, updatePost, getPostById } = require('../db');
 const { requireUser, requireActiveUser } = require('./utils');
 
@@ -7,14 +7,14 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
   res.send({ message: 'under construction' });
 });
 
-usersRouter.use((req, res, next) => {
+postsRouter.use((req, res, next) => {
   console.log("A request is being made to /posts");
 
   // res.send({ message: 'hello from /posts!' });
   next()
 });
 
-usersRouter.get('/', async (req, res, next) => {
+postsRouter.get('/', async (req, res, next) => {
   try {
     const allPosts = await getAllPosts();
 
