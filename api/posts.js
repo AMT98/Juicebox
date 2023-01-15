@@ -1,7 +1,7 @@
 const express = require('express');
 const postsRouter = express.Router();
 const { getAllPosts, createPost, updatePost, getPostById } = require('../db');
-const { requireUser, requireActiveUser } = require('./utils');
+const { requireUser } = require('./utils');
 
 postsRouter.post('/', requireUser, async (req, res, next) => {
   res.send({ message: 'under construction' });
@@ -32,7 +32,7 @@ postsRouter.get('/', async (req, res, next) => {
 
 //Create
 
-postsRouter.post('/', requireUser, requireActiveUser, async (req, res, next) => {
+postsRouter.post('/', requireUser, async (req, res, next) => {
   const { title, content, tags = "" } = req.body;
 
   const tagArr = tags.trim().split(/\s+/);
@@ -100,7 +100,7 @@ postsRouter.patch('/:postId', requireUser, async (req, res, next) => {
 
 
 // Delete
-postsRouter.delete('/:postId', requireUser, requireActiveUser, async (req, res, next) => {
+postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
   try {
       const post = await getPostById(req.params.postId);
 

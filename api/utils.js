@@ -10,18 +10,7 @@ function requireUser(req, res, next) {
   next();
 };
 
-function requireActiveUser(req, res, next) {
-  if (req.user && req.user.active === false) {
-      next({
-          name: "UserInactiveError",
-          message: "This user profile has been deactivated"
-      });
-  };
-
-  next();
-};
 
 module.exports = {
-  requireUser,
-  requireActiveUser
+  requireUser
 };
