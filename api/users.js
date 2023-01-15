@@ -1,11 +1,14 @@
 const express = require('express');
 const usersRouter = express.Router();
-const { getAllUsers } = require('../db');
+const jwt = require('jsonwebtoken');
+
+const { getAllUsers, getUserByUsername, createUser, updateUser, getUserById } = require('../db');
+const { requireUser, requireActiveUser } = require('./utils');
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
 
-  res.send({ message: 'hello from /users!' });
+  // res.send({ message: 'hello from /users!' });
   next()
 });
 
@@ -17,6 +20,7 @@ usersRouter.get('/', async (req, res) => {
   });
 });
 
+//Signin
 usersRouter.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
 
@@ -46,6 +50,7 @@ usersRouter.post('/login', async (req, res, next) => {
   };
 });
 
+//Signup
 usersRouter.post('/register', async (req, res, next) => {
   const { username, password, name, location } = req.body;
 
@@ -68,6 +73,29 @@ usersRouter.post('/register', async (req, res, next) => {
       next({ name, message });
   };
 });
+
+// Delete
+usersRouter.delete('/:userId', requireUser, requireActiveUser, async (req, res, next) => {
+  try {
+      const user = await getUserById(req.params.userId);
+
+      if (user && user.id === req.user.id) {
+          const updatedUser = updateUser(user.id, { active: false });
+
+          res.send({ user: updatedUser });
+      } else {
+          next(user ? {
+              name: "UnauthorizedUserError",
+              message: "You cannot delete another user, jerk"
+          } : {
+              name: "UserNotFoundError",
+              message: "That user does not exist"
+          });
+      };
+  } catch ({ name, message }) {
+      next({ name, message });
+  };
+})
 
 
 module.exports = usersRouter;

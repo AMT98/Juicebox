@@ -5,6 +5,8 @@ const { getUserById } = require('../db');
 const { JWT_SECRET } = process.env;
 
 const usersRouter = require('./users');
+const postsRouter = require('./posts');
+const tagsRouter = require('./tags');
 
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
@@ -41,8 +43,9 @@ apiRouter.use((req, res, next) => {
   next();
 });
 
-
 apiRouter.use('/users', usersRouter);
+apiRouter.use('/posts', postsRouter);
+apiRouter.use('/tags', tagsRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.send({
