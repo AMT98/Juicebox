@@ -5,8 +5,8 @@ const { JWT_SECRET } = process.env;
 
 const apiRouter = express.Router();
 const usersRouter = require('./users');
-const postsRouter = require('./posts');
-const tagsRouter = require('./tags');
+const postsRouter = require('./posts.js');
+const tagsRouter = require('./tags.js');
 
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';

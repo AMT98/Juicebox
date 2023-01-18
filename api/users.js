@@ -3,12 +3,12 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 
 const { getAllUsers, getUserByUsername, createUser, updateUser, getUserById } = require('../db');
-const { requireUser } = require('./utils');
+const { requireUser } = require('./utils.js');
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
 
-  // res.send({ message: 'hello from /users!' });
+
   next()
 });
 
