@@ -1,10 +1,14 @@
 require('dotenv').config();
-
+const cors = require('cors');
 
 const PORT = 3500;
 const express = require('express');
 const server = express();
 const { client } = require('./db');
+
+//middleware
+server.use(cors());
+
 client.connect();
 
 
